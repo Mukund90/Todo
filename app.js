@@ -8,15 +8,35 @@ app.use(cors())
 
 
 mongoose.connect("mongodb://localhost:27017/todos_database", {
-});
+}).then(function(data)
+{
+     console.log("Connection is sucess!")
+}).catch(function(error)
+{
+    console.log("unsucessfully connected!")
+})
 
 const todoSchema = new mongoose.Schema({
-    title: String,
-    description: String,
+  title:{
+    type: String,
+    required : true,
+    unique : true,
+    trim :true
+  },
+  description:
+  {
+    type:String,
+    required:true,
+    unique:true,
+    trim:true
+
+  }
     
 });
 
-const Todo = mongoose.model("Todo", todoSchema);
+const Todo = mongoose.model("todos",todoSchema)
+
+
 
 
  
@@ -61,6 +81,8 @@ app.put("/todos/:id",async function(req,res)
         {$set:{title :title ,description : description}},
         {new: true, runValidators: true}
     )
+
+
 
     if(updatetodo)
     {
