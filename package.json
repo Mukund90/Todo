@@ -13,8 +13,23 @@
     "access": "public"
   },
   "scripts": {
-    "start": "node app.js", 
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "gen-code-points": "ts-node src/generate-code-points.ts src/code-points-data.ts src/code-points-data-browser.ts",
+    "bootstrap": "npm run compile",
+    "prepublishOnly": "npm run compile",
+    "compile": "npm run gen-code-points && tsc -p tsconfig.json && gen-esm-wrapper . ./dist/.esm-wrapper.mjs",
+    "typecheck": "tsc --noEmit",
+    "eslint": "eslint",
+    "prettier": "prettier",
+    "lint": "npm run eslint . && npm run prettier -- --check .",
+    "depcheck": "depcheck",
+    "check": "npm run typecheck && npm run lint && npm run depcheck",
+    "check-ci": "npm run check",
+    "test-cov": "nyc -x \"**/*.spec.*\" --reporter=lcov --reporter=text --reporter=html npm run test",
+    "test-watch": "npm run test -- --watch",
+    "test-ci": "npm run test-cov",
+    "reformat": "npm run prettier -- --write ."
   },
   "main": "dist/node.js",
   "bugs": {
@@ -46,24 +61,6 @@
     }
   },
   "types": "./dist/node.d.ts",
-  "scripts": {
-    "gen-code-points": "ts-node src/generate-code-points.ts src/code-points-data.ts src/code-points-data-browser.ts",
-    "bootstrap": "npm run compile",
-    "prepublishOnly": "npm run compile",
-    "compile": "npm run gen-code-points && tsc -p tsconfig.json && gen-esm-wrapper . ./dist/.esm-wrapper.mjs",
-    "typecheck": "tsc --noEmit",
-    "eslint": "eslint",
-    "prettier": "prettier",
-    "lint": "npm run eslint . && npm run prettier -- --check .",
-    "depcheck": "depcheck",
-    "check": "npm run typecheck && npm run lint && npm run depcheck",
-    "check-ci": "npm run check",
-    "test": "mocha",
-    "test-cov": "nyc -x \"**/*.spec.*\" --reporter=lcov --reporter=text --reporter=html npm run test",
-    "test-watch": "npm run test -- --watch",
-    "test-ci": "npm run test-cov",
-    "reformat": "npm run prettier -- --write ."
-  },
   "dependencies": {
     "sparse-bitfield": "^3.0.3"
   },
