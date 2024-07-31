@@ -13,7 +13,7 @@
     "access": "public"
   },
   "scripts": {
-    "start": "node app.js",  // Replace 'app.js' with your main entry file
+    "start": "node app.js", 
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "main": "dist/node.js",
