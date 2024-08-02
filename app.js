@@ -7,7 +7,7 @@ const app = express();
 app.use(cors())
 
 
-mongoose.connect("mongodb://localhost:27017/todos_database", {
+mongoose.connect(process.env.MONGO_URL) {
 }).then(function(data)
 {
      console.log("Connection is sucess!")
@@ -123,7 +123,7 @@ app.delete("/todos/:id", async function(req,res)
     } 
 })
 
-let port_number = 3000;
+let port_number = process.env.PORT || 3000;
 
 app.listen(port_number, function() {
     console.log(`Listening on port ${port_number}`);
